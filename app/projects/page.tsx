@@ -153,9 +153,9 @@ export default function ProjectsPage() {
                   support of like-minded peers and mentors.
                 </p>
               </div>
-              <div className="mt-8 md:mt-0">
+              <div className="mt-8 md:mt-0 flex justify-center md:block w-full md:w-auto">
                 <JoinButton
-                  className="bg-green-500 hover:bg-green-600 text-white"
+                  className="w-auto bg-green-500 hover:bg-green-600 text-white"
                   icon={<Shield className="h-4 w-4" />}
                 >
                   Get Started

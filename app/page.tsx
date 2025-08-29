@@ -1,4 +1,5 @@
 "use client"
+import { useEffect, useState } from "react"
 import { Code, Users, Cpu, Zap, ArrowRight, Lock, Database, Server, Shield } from "lucide-react"
 import { motion } from "framer-motion"
 import TypingEffect from "@/components/typing-effect"
@@ -11,6 +12,9 @@ import PremiumButton from "@/components/premium-button"
 import CustomShieldLogo from "@/components/custom-shield-logo"
 
 export default function Home() {
+  // Avoid SSR/client mismatch: render random-dependent visuals only after mount
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
   return (
     <>
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -51,7 +55,7 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="mt-10 flex flex-col sm:flex-row gap-4 justify-center md:justify-start"
               >
-                <div className="inline-block">
+                <div className="inline-block order-1 self-center sm:self-auto">
                   <PremiumButton
                     href="/about"
                     className="bg-green-500 hover:bg-green-600 text-white"
@@ -61,8 +65,11 @@ export default function Home() {
                   </PremiumButton>
                 </div>
 
-                <div className="inline-block">
-                  <JoinButton variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
+                <div className="inline-block order-2 self-center sm:self-auto">
+                  <JoinButton
+                    variant="outline"
+                    className="border-green-500 text-green-400 hover:bg-green-500/10"
+                  >
                     Join The Club
                   </JoinButton>
                 </div>
@@ -130,35 +137,37 @@ export default function Home() {
                   <CustomShieldLogo size={234} withPulse={true} />
                 </motion.div>
 
-                {/* Binary data flowing around shield */}
-                <div className="absolute inset-0 overflow-hidden">
-                  {[...Array(15)].map((_, i) => (
-                    <motion.div
-                      key={`binary-${i}`}
-                      className="absolute whitespace-nowrap text-green-500/40 font-mono text-xs"
-                      style={{
-                        top: `${Math.random() * 100}%`,
-                        left: `${Math.random() * 100}%`,
-                        transform: `rotate(${Math.random() * 360}deg)`,
-                      }}
-                      animate={{
-                        opacity: [0, 1, 0],
-                        x: [0, Math.random() * 50 - 25],
-                        y: [0, Math.random() * 50 - 25],
-                      }}
-                      transition={{
-                        duration: 3 + Math.random() * 2,
-                        repeat: Number.POSITIVE_INFINITY,
-                        repeatType: "reverse",
-                        delay: Math.random() * 2,
-                      }}
-                    >
-                      {Array.from({ length: 8 })
-                        .map(() => (Math.random() > 0.5 ? "0" : "1"))
-                        .join("")}
-                    </motion.div>
-                  ))}
-                </div>
+                {/* Binary data flowing around shield (client-only to prevent hydration mismatch) */}
+                {mounted && (
+                  <div className="absolute inset-0 overflow-hidden">
+                    {[...Array(15)].map((_, i) => (
+                      <motion.div
+                        key={`binary-${i}`}
+                        className="absolute whitespace-nowrap text-green-500/40 font-mono text-xs"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                          transform: `rotate(${Math.random() * 360}deg)`,
+                        }}
+                        animate={{
+                          opacity: [0, 1, 0],
+                          x: [0, Math.random() * 50 - 25],
+                          y: [0, Math.random() * 50 - 25],
+                        }}
+                        transition={{
+                          duration: 3 + Math.random() * 2,
+                          repeat: Number.POSITIVE_INFINITY,
+                          repeatType: "reverse",
+                          delay: Math.random() * 2,
+                        }}
+                      >
+                        {Array.from({ length: 8 })
+                          .map(() => (Math.random() > 0.5 ? "0" : "1"))
+                          .join("")}
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Orbiting security icons - using normal Shield icon */}
                 {[
@@ -210,29 +219,33 @@ export default function Home() {
                   </motion.div>
                 ))}
 
-                {/* Binary data particles */}
-                {[...Array(20)].map((_, i) => (
-                  <motion.div
-                    key={`particle-${i}`}
-                    className="absolute text-xs font-mono text-green-500/70"
-                    style={{
-                      top: `${Math.random() * 100}%`,
-                      left: `${Math.random() * 100}%`,
-                    }}
-                    animate={{
-                      opacity: [0, 1, 0],
-                      scale: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      duration: 2 + Math.random() * 3,
-                      delay: Math.random() * 5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      repeatType: "loop",
-                    }}
-                  >
-                    {Math.random() > 0.5 ? "0" : "1"}
-                  </motion.div>
-                ))}
+                {/* Binary data particles (client-only to prevent hydration mismatch) */}
+                {mounted && (
+                  <>
+                    {[...Array(20)].map((_, i) => (
+                      <motion.div
+                        key={`particle-${i}`}
+                        className="absolute text-xs font-mono text-green-500/70"
+                        style={{
+                          top: `${Math.random() * 100}%`,
+                          left: `${Math.random() * 100}%`,
+                        }}
+                        animate={{
+                          opacity: [0, 1, 0],
+                          scale: [0.5, 1, 0.5],
+                        }}
+                        transition={{
+                          duration: 2 + Math.random() * 3,
+                          delay: Math.random() * 5,
+                          repeat: Number.POSITIVE_INFINITY,
+                          repeatType: "loop",
+                        }}
+                      >
+                        {Math.random() > 0.5 ? "0" : "1"}
+                      </motion.div>
+                    ))}
+                  </>
+                )}
               </div>
             </motion.div>
           </div>
@@ -444,9 +457,9 @@ export default function Home() {
                   cybersecurity.
                 </p>
               </div>
-              <div className="mt-8 md:mt-0">
+              <div className="mt-8 md:mt-0 flex justify-center md:block w-full md:w-auto">
                 <JoinButton
-                  className="bg-green-500 hover:bg-green-600 text-white"
+                  className="w-auto bg-green-500 hover:bg-green-600 text-white"
                   icon={<ArrowRight className="h-4 w-4" />}
                 >
                   Join Now

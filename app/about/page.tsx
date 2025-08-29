@@ -248,12 +248,14 @@ export default function AboutPage() {
                       className="mb-4"
                     >
                       {"isCustom" in item ? (
-                        <CustomShieldLogo size={48} className="text-green-400" />
+                        <div className="-mt-6">
+                          <CustomShieldLogo size={86} className="text-green-400" />
+                        </div>
                       ) : (
                         <item.icon className="h-12 w-12 text-green-400" />
                       )}
                     </motion.div>
-                    <p className="text-gray-400">{item.description}</p>
+                    <p className={`text-gray-400 ${"isCustom" in item ? "-mt-4" : ""}`}>{item.description}</p>
                   </div>
                 </UICard>
               </motion.div>

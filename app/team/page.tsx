@@ -741,7 +741,7 @@ export default function TeamPage() {
                 and contribute to our mission.
               </motion.p>
               <motion.div
-                className="mt-8"
+                className="mt-8 flex justify-center"
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}

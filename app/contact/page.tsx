@@ -147,12 +147,10 @@ export default function ContactPage() {
                       Become a part of our growing community of cybersecurity enthusiasts. Fill out the form to start
                       your journey with us.
                     </p>
-                    <div className="mt-4 inline-block">
-                      {" "}
-                      {/* Added inline-block to fix button animation */}
+                    <div className="mt-4 text-center md:text-left w-full">
                       <JoinButton
                         variant="outline"
-                        className="border-green-500 text-green-400 hover:bg-green-500/10"
+                        className="w-auto border-green-500 text-green-400 hover:bg-green-500/10"
                         size="sm"
                       >
                         Apply Now
