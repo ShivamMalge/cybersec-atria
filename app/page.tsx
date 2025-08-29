@@ -61,10 +61,12 @@ export default function Home() {
                   </PremiumButton>
                 </div>
 
-                <div className="inline-block">
-                  <JoinButton variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10">
-                    Join The Club
-                  </JoinButton>
+                <div className="inline-block w-full sm:w-auto">
+                  <div className="flex justify-center sm:justify-start">
+                    <JoinButton variant="outline" className="border-green-500 text-green-400 hover:bg-green-500/10 w-full sm:w-auto">
+                      Join The Club
+                    </JoinButton>
+                  </div>
                 </div>
               </motion.div>
             </div>
