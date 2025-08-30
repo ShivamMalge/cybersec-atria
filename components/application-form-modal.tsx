@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import PremiumButton from "@/components/premium-button"
 import CustomShieldLogo from "@/components/custom-shield-logo"
+import { createPortal } from "react-dom"
 
 interface ApplicationFormModalProps {
   isOpen: boolean
@@ -40,10 +41,11 @@ export default function ApplicationFormModal({ isOpen, onClose }: ApplicationFor
   const nextStep = () => setFormStep((prev) => prev + 1)
   const prevStep = () => setFormStep((prev) => prev - 1)
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70">
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -372,5 +374,12 @@ export default function ApplicationFormModal({ isOpen, onClose }: ApplicationFor
       )}
     </AnimatePresence>
   )
+
+  // Render in a portal to escape any ancestor stacking contexts / overflow
+  if (typeof window !== "undefined") {
+    return createPortal(modalContent, document.body)
+  }
+
+  return null
 }
 
